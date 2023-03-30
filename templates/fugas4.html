@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fugas - Ejemplo Seguro</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body style="height:745px">
+    <div class="container">
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark ">
+      <a href="#" class="navbar-brand mb-0 h1">
+        <img class="d-inline ms-4 align-top" src="{{ url_for('static', filename='img/Logo.jpg')}}" width="30" height="30" style="border-radius: 50%;">
+      </a>
+      <button type="button" data-bs-toggle="collapse" data-bs-target="#barraNavegacion" class="navbar-toggler m-2" aria-controls="barraNavegacion" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="barraNavegacion">
+        <ul class="navbar-nav">
+          <li class="nav-item active m-2">
+            <a href="/home" class="nav-link active">
+              Home
+            </a>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Fugas de Información
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/fugas1" class="dropdown-item">Fuga 1</a></li>
+                <li><a href="/fugas2" class="dropdown-item">Fuga 2</a></li>
+                <li><a href="/fugas3" class="dropdown-item">Fuga 3</a></li>
+                <li><a href="/fugas4" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              SQLi
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/SQLi1" class="dropdown-item">Ejercicio</a></li>
+                <li><a href="/SQLi2" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              XSS
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/XSS1" class="dropdown-item">E. Reflected</a></li>
+                <li><a href="/XSS2" class="dropdown-item">E. Stored</a></li>
+                <li><a href="/XSS3" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              CSRF
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/CSRF1" class="dropdown-item">Ejercicio</a></li>
+                <li><a href="/CSRF2" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Final
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/flag" class="dropdown-item">Flag</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+        <div class="nav navbar-nav navbar-right m-2" style="float:right;">
+           <a class="navbar-brand text-center" href="/logout">Cerrar Sesión</a>
+        </div>
+      </nav>
+    </div>
+    <div class="container overflow-hidden" style="height:670px;">
+      <div class="float-child" id="divHome">
+        <p class="text-center m-2" style="font-size: 20px ; font-weight: bold">
+          <b>Ejemplo Seguro</b>
+        </p>
+        <p class="text-center m-2">
+          No hay un "Ejemplo Seguro" para fugas de información. Las fugas de información son a nivel más básico, resultados de mal diseño, desconocimiento de buenas prácticas, arrogancia/ignorancia de desarrolladores acerca de como manejar información sensible, o como en el caso de esta aplicación, una acción intencional para liberar información sensible.
+        </p>
+        <p class="text-center m-2">
+          Como regla general, la manera de evitar, mitigar o eliminar fugas de información es proteger la información sensible a medida que va a apareciendo. Es importante aprender por prueba y error, experiencia o investigación que información es sensible, porque las medidas que un desarrollador tome se basarán en ello. Seguir los estandares de desarrollo, no "ponerse creativo" con filtros o medidas de protección personalizada, cifrar la infórmación que es necesario compartir entre páginas para funcionamiento pero que sigue siendo un vector de riesgo, no sobre-documentar, no almacenar información de una manera ilógica y luego no implementar medidas adecuadas para protegerla.
+        </p>
+        <p class="text-center m-2">
+          Las fugas de información, aunque simples en conceptos, pueden ser parte de todas las demás vulnerabilidades, por lo que es importante entenderlas. Una manera simple de empezar a categorizar información sensible es, "Si nadie debería saber esto más que yo (desarrollador, a nivel abstracto) y el usuario (en casos donde aplique), es información sensible."
+        </p> 
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  </body>
+</html>

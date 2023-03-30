@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CSRF 2</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body style="height:745px">
+    <div class="container">
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark ">
+      <a href="#" class="navbar-brand mb-0 h1">
+        <img class="d-inline ms-4 align-top" src="{{ url_for('static', filename='img/Logo.jpg')}}" width="30" height="30" style="border-radius: 50%;">
+      </a>
+      <button type="button" data-bs-toggle="collapse" data-bs-target="#barraNavegacion" class="navbar-toggler m-2" aria-controls="barraNavegacion" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="barraNavegacion">
+        <ul class="navbar-nav">
+          <li class="nav-item active m-2">
+            <a href="/home" class="nav-link active">
+              Home
+            </a>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Fugas de Información
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/fugas1" class="dropdown-item">Fuga 1</a></li>
+                <li><a href="/fugas2" class="dropdown-item">Fuga 2</a></li>
+                <li><a href="/fugas3" class="dropdown-item">Fuga 3</a></li>
+                <li><a href="/fugas4" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              SQLi
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/SQLi1" class="dropdown-item">Ejercicio</a></li>
+                <li><a href="/SQLi2" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              XSS
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/XSS1" class="dropdown-item">E. Reflected</a></li>
+                <li><a href="/XSS2" class="dropdown-item">E. Stored</a></li>
+                <li><a href="/XSS3" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              CSRF
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/CSRF1" class="dropdown-item">Ejercicio</a></li>
+                <li><a href="/CSRF2" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Final
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/flag" class="dropdown-item">Flag</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+        <div class="nav navbar-nav navbar-right m-2" style="float:right;">
+           <a class="navbar-brand text-center" href="/logout">Cerrar Sesión</a>
+        </div>
+      </nav>
+    </div>
+    <div class="container overflow-hidden" style="height:670px;">
+      <div class="float-child" id="divHome">
+        {% if current_user.id == 1 %}
+        <p class="text-center m-2" style="font-size: 20px ; font-weight: bold">
+          <b>Ejemplo Seguro</b>
+        </p>
+        {% for mensaje in get_flashed_messages(category_filter=["Confirma", "Errores", "Success"])%}
+        <p class="text-center m-2 - text-danger">
+          {{mensaje}}
+        </p>
+        {% endfor %}
+        <p class="text-center m-2 - text-danger">
+          <b>Fondos Actuales: {{dolares}}</b>
+        </p>
+        {% for mensaje in get_flashed_messages(category_filter=["forma"])%}
+        <form action='/CSRF2' class="text-center p-2" method="POST" style="position: relative;" autocomplete="off">
+            <button id="btnContexto" type="button" class="btn btn-success text-center m-2" data-bs-toggle="modal" data-bs-target="#modalContexto">
+            Contexto
+            </button><br><br>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <label for="cuenta" class="form-label text-dark"><b>Numero de Cuenta:</b></label><br>
+            <input type='text' name='cuenta' id='cuenta' class="form-control me-2 text-center" placeholder='Ingresa la cuenta destino aqui...' required/><br>
+            <label for="transferencia" class="form-label text-dark"><b>Ingresa un monto que transferir:</b></label><br>
+            <input type='number' name='transferencia' id='transferencia' class="form-control me-2 text-center" placeholder='Ingresa tu monto aqui' required/><br>
+            <button type='submit' name='submit' class="btn btn-primary">Transferir</button>
+        </form>
+        {% endfor %}
+        {% for mensaje in get_flashed_messages(category_filter=["Confirma"])%}
+        <form action='/CSRF2' class="text-center p-2" method="POST" style="position: relative;" autocomplete="off">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <input type='text' name='cuenta' id='cuenta' value="{{cuenta}}" required hidden/><br>
+            <input type='text' name='transferencia' id='transferencia' value="{{monto}}" required hidden/><br>
+            <input type='text' name='confirma' id='confirma' value="confirma" required hidden/><br>
+            <button type='submit' name='submit' class="btn btn-danger">Confirmar</button>
+        </form>
+        {% endfor %}
+      </div>
+      <div class="modal fade" id="modalContexto" tabindex="-1" role="dialog" aria-labelledby="modalContextoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalContextoLabel">Detalle del Contexto</h5>
+                </div>
+                <div class="modal-body">
+                  <p class="text-center m-2">
+                    CSRF como ataque se enfoca en su gran mayoría en la explotación de credenciales validadas por otra persona en su dispositivo, haciendo uso de ingeniería social, o en algunos casos almacenamiento malicioso de acciones en el sitio mismo, para forzar comportamiento "autorizado" por el usuario sin su conocimiento.
+                  </p>
+                  <p class="text-center m-2">
+                    Afortunadamente, en la mayoría de las instancias una página puede ser protegida de manera casi infalible contra ataques de tipo CSRF. La [buena] impementación de CSRF tokens protege la clase de formularios que serían susceptibles a acciones privilegiadas accidentales de manera muy consistente, y los fallos típicos de la implementación suelen a solo ocurrir cuando el diseño del programador es indebido, ya que en la mayoría de los casos es protección autocontenida.
+                  </p>
+                  <p class="text-center m-2">
+                    Este ejemplo seguro es una implementacion de dicho mecanismo, implementando como control el uso exclusivo de mensajes POST para manejar la acción vulnerable (la transferencia), donde la implementación del CSRF token obliga la validación de dicho formulario de antemano y no la procesará de otra manera. Todas las transferencias cuentan con una pantalla de confirmación de la transferencia, que ayudaría a establecer el conocimiento del usuario de la transferencia que se pudiese tratar de realizar en su nombre (el aspecto de ingeniería social o acción oculta maliciosamente), y por supuesto se integran medidas especificas al formulario como validación de la cuenta a la que se transfiere y el monto que se trata de transferir.
+                  </p>
+                  <p class="text-center m-2">
+
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% else %}
+        <p class="text-center m-2" style="font-size: 20px ; font-weight: bold">
+          <b>Inicia sesion con el usuario por defecto para ver el ejemplo seguro.</b>
+        </p>
+        {% endif %}
+
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  </body>
+</html>

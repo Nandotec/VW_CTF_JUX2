@@ -1,0 +1,48 @@
+#divEjercicio{
+	float: left;
+	height: 100%;
+	width: 75%;
+	border: 10px solid gray;
+	border-right-width: 5px;
+	margin-top: 1px; 
+	background-color: #f2f2f3;
+	position:relative
+}
+
+#btnCuestionario{
+	position:absolute;
+	bottom:0px;
+	left: 0px
+}
+
+#divRespuesta{
+	float: left;
+	height:50%;
+	width: 25%;
+	border: 10px solid gray;
+	border-left-width: 5px;
+	border-bottom-width: 5px;
+	margin-top: 1px;
+	background-color: #f2f2f3
+}
+
+#divRecompensa{
+	float: left;
+	height:50%;
+	width: 25%;
+	border: 10px solid gray;
+	border-left-width: 5px;
+	border-top-width: 5px;
+	background-color: #f2f2f3;
+	position: relative;
+}
+
+#divHome{
+	float: left;
+	height: 100%;
+	width: 100%;
+	border: 10px solid gray;
+	margin-top: 1px; 
+	background-color: #f2f2f3;
+	position:relative
+}

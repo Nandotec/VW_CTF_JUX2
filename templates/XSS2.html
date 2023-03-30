@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XSS Stored</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body style="height:745px">
+    <div class="container">
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark ">
+      <a href="#" class="navbar-brand mb-0 h1">
+        <img class="d-inline ms-4 align-top" src="{{ url_for('static', filename='img/Logo.jpg')}}" width="30" height="30" style="border-radius: 50%;">
+      </a>
+      <button type="button" data-bs-toggle="collapse" data-bs-target="#barraNavegacion" class="navbar-toggler m-2" aria-controls="barraNavegacion" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="barraNavegacion">
+        <ul class="navbar-nav">
+          <li class="nav-item active m-2">
+            <a href="/home" class="nav-link active">
+              Home
+            </a>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Fugas de Información
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/fugas1" class="dropdown-item">Fuga 1</a></li>
+                <li><a href="/fugas2" class="dropdown-item">Fuga 2</a></li>
+                <li><a href="/fugas3" class="dropdown-item">Fuga 3</a></li>
+                <li><a href="/fugas4" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              SQLi
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/SQLi1" class="dropdown-item">Ejercicio</a></li>
+                <li><a href="/SQLi2" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              XSS
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/XSS1" class="dropdown-item">E. Reflected</a></li>
+                <li><a href="/XSS2" class="dropdown-item">E. Stored</a></li>
+                <li><a href="/XSS3" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              CSRF
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/CSRF1" class="dropdown-item">Ejercicio</a></li>
+                <li><a href="/CSRF2" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Final
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/flag" class="dropdown-item">Flag</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+        <div class="nav navbar-nav navbar-right m-2" style="float:right;">
+           <a class="navbar-brand text-center" href="/logout">Cerrar Sesión</a>
+        </div>
+      </nav>
+    </div>
+    <div class="container overflow-hidden" style="height:670px;">
+      <div class="float-child" id="divEjercicio">
+        <p class="text-center m-2" style="font-size: 20px ; font-weight: bold">
+          <b>Ejercicio</b>
+        </p>
+        <p class="text-center m-2">
+          Trata de insertar comportamiento javascript arbitrario a una acción persistente (stored) en esta página. Esta pagina simula un foro de recomendaciones de juegos, con enlaces opcionales para mas informacion. Analiza el comportamiento de la página para identificar un elemento vulnerable. 
+        </p>
+        <div>
+        {% for Insert in get_flashed_messages(category_filter=["Insert"])%}
+        <p class="text-center text-danger" style="margin: 10px">
+          <b>{{Insert}}</b>
+        </p>
+        {% endfor %}
+          <form id="fJuego" action="/XSS2" class="text-center p-2" method="post" style="position: relative; top: 15%">
+
+            <label for="iNombre" class="form-label text-success"><b>Nombre del Juego</b></label>
+            <input type="text" class="form-control me-2 text-center" id="iNombre" name="iNombre" placeholder="Ingresa tu nombre aqui..." maxlength="50" required>
+            <br>
+            <label for="iEnlace" class="form-label text-success"><b>Enlace a información del Juego</b></label>
+            <input type="text" class="form-control me-2 text-center" id="iEnlace" name="iEnlace" placeholder="Ingresa el enlace aqui (opcional)...">
+            <br>
+            <label for="iRadio1" class="form-label text-success"><b>Lo recomendarías?</b></label><br>
+            <input type="radio" class="form-check-input" id="iRadio1" name="iRadio" value="1" required> Si<br>
+            <input type="radio" class="form-check-input" id="iRadio2" name="iRadio" value="0"> No<br><br>
+            <button id="bJuego" type="submit" class="btn btn-dark">Publicar</button>
+            <br>
+            <button id="btnContexto" type="button" class="btn btn-primary text-center m-2" data-bs-toggle="modal" data-bs-target="#modalContexto">
+              Ver Foro
+            </button>
+          </form>
+          <form id="fLimpiar" action="/XSS2" class="text-center p-2" method="post" style="position: relative; top: 15%">
+            <input id="iLimpiar" name="iLimpiar" value="limpiar" hidden>
+            <button id="bLimpiar" type="submit" class="btn btn-danger">
+              Limpiar Foro
+            </button>
+          </form>
+        </div>
+
+      </div>
+      <input id="iEscondido" value="la clave es d8ae1f0b868d69547dd6377f7538eec6" hidden>
+      <div class="d-block float-child overflow-hidden" id="divRespuesta">
+        <form id="fRespuesta" action="XSS2" class="text-center p-2" method="post" style="position: relative; top: 15%">
+          <label for="iRespuesta" class="form-label"><b>Respuesta</b></label>
+          <input type="text" class="form-control me-2 text-center" id="iRespuesta" name="iRespuesta" placeholder="Ingresa la clave...">
+          <label class="control-label text-danger" for="iRespuesta">{% for error in get_flashed_messages(category_filter=["error"])%}{{error}}{% endfor %}</label>
+          <br><br>
+          <button type="submit" class="btn btn-dark">Enviar</button>
+        </form>
+        <p class="text-center" style="margin: 20px; position: relative; top:10%">{% for ayuda in get_flashed_messages(category_filter=["ayuda"])%}{{ayuda}}{% endfor %}<p>
+
+      </div>
+      <div class="float-child overflow-hidden" id="divRecompensa">
+        <p class="text-center m-2">
+          <b>Recompensa</b>
+        </p>
+        <p class="text-center">
+          <img class="d-inline m-4 align-top" src="{{ url_for('static', filename=chest) }}" width="50%" height="50%">
+        </p>
+        {% for recompensa in get_flashed_messages(category_filter=["recompensa"])%}
+        <p class="text-center text-success" style="margin: 10px">
+          <b>{{recompensa}}</b>
+        </p>
+        {% endfor %}
+      </div>
+    </div>
+          <div class="modal fade" id="modalContexto" tabindex="-1" role="dialog" aria-labelledby="modalContextoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalContextoLabel">Foro</h5>
+                </div>
+                <div class="modal-body">
+                  {% for cursor in resultados%}
+                  <div class="m-3 border border-primary">
+                    <p class="m-2"><b>
+                      {% if cursor['recomendacion'] == 1 %}
+                        Recomendado - 
+                      {% elif cursor['recomendacion'] == 0 %}
+                        No Recomendado - 
+                      {% endif %}
+                      {{cursor['juego']}}
+                    </b></p>
+                    <a href="{{cursor['enlace']}}" class="m-2">Informacion</a>
+                    <br><br>
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  </body>
+</html>

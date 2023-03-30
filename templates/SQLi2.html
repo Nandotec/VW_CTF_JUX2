@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SQLi - Ejemplo Seguro</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body style="height:745px">
+    <div class="container">
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark ">
+      <a href="#" class="navbar-brand mb-0 h1">
+        <img class="d-inline ms-4 align-top" src="{{ url_for('static', filename='img/Logo.jpg')}}" width="30" height="30" style="border-radius: 50%;">
+      </a>
+      <button type="button" data-bs-toggle="collapse" data-bs-target="#barraNavegacion" class="navbar-toggler m-2" aria-controls="barraNavegacion" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="barraNavegacion">
+        <ul class="navbar-nav">
+          <li class="nav-item active m-2">
+            <a href="/home" class="nav-link active">
+              Home
+            </a>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Fugas de Información
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/fugas1" class="dropdown-item">Fuga 1</a></li>
+                <li><a href="/fugas2" class="dropdown-item">Fuga 2</a></li>
+                <li><a href="/fugas3" class="dropdown-item">Fuga 3</a></li>
+                <li><a href="/fugas4" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              SQLi
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/SQLi1" class="dropdown-item">Ejercicio</a></li>
+                <li><a href="/SQLi2" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              XSS
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/XSS1" class="dropdown-item">E. Reflected</a></li>
+                <li><a href="/XSS2" class="dropdown-item">E. Stored</a></li>
+                <li><a href="/XSS3" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              CSRF
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/CSRF1" class="dropdown-item">Ejercicio</a></li>
+                <li><a href="/CSRF2" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Final
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/flag" class="dropdown-item">Flag</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+        <div class="nav navbar-nav navbar-right m-2" style="float:right;">
+           <a class="navbar-brand text-center" href="/logout">Cerrar Sesión</a>
+        </div>
+      </nav>
+    </div>
+    <div class="container overflow-hidden" style="height:670px;">
+      <div class="float-child" id="divHome">
+        <p class="text-center m-2" style="font-size: 20px ; font-weight: bold">
+          <b>Ejemplo Seguro</b>
+        </p> 
+        <div>
+          <form id="fSQL2" action="/SQLi2" class="text-center p-2" method="post" style="position: relative; top: 15%">
+            <button id="btnContexto" type="button" class="btn btn-primary text-center m-2" data-bs-toggle="modal" data-bs-target="#modalContexto">
+            Contexto
+            </button>
+            <br>
+            <label for="iSQL2" class="form-label"><b>Número de estudiante:</b></label>
+            <select id="iSQL2" name="iSQL2" form="fSQL2" class="form-select form-select-md me-2 text-center" required>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+            <br>
+            <button id="bSQL2" type="submit" class="btn btn-dark">Enviar</button>
+          </form>
+        </div>
+        <div class="overflow-auto" style="height: 350px;">
+        {% for cursor in resultados %}
+        <p class="text-center m-2 text-primary" >
+              <b>Nombre: {{cursor['nombre']}}</b><br>
+              <b>Apellido: {{cursor['apellido']}}</b><br>
+              <b>Calificación: {{cursor['calificacion']}}</b><br>        
+       </p>
+        {% endfor %}
+       </div>
+    </div>
+    <div class="modal fade" id="modalContexto" tabindex="-1" role="dialog" aria-labelledby="modalContextoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalContextoLabel">Detalle del Contexto</h5>
+                </div>
+                <div class="modal-body">
+                  <p class="text-center m-2">
+                    Hay una linea muy delgada entre seguro y no seguro para SQLi, tanto que literalmente se reduce a "es inyectable o no es inyectable". Para protegerse, dos medidas son equivalentes a nivel de efectividad y una medida es buen estandar para evitar hacer el trabajo del atacante más fácil:
+                  </p>
+                  <p class="text-center m-2">
+                    <b>1. Parametrizar las consultas o usar Stored Procedures</b>: Estas son dos medidas que son iguales a nivel de efectividad, pero de acuerdo con la informacion que encontramos, SP's es lógisticamente mejor. Estas medidas hacen que el input de información sea completamente tratado como solamente eso, "el relleno del valor contra el que comparo". No se validan como cadenas, así que no pueden forzar ejecución arbitraria de comandos ajenos, ambas son en teoría (cuando se implementan bien) infalibles. Los SP's son argumentablemente mejores porque un cambio en codigo para una empresa puede ser un proceso más largo que un ajuste en la base de datos.
+                  </p>
+                  <p class="text-center m-2">
+                    <b>2. Desactivar respuestas de error</b>: Compartir, en cualquier forma, información de errores en la base de datos a los usuarios es superfluo. No necesitan esa información, y por ende no hay porque compartirselas.
+                  </p>
+                  <p class="text-center m-2">
+                    Tambien hay otras medidas como limites de longitud de input, listas blancas/negras de caracteres permitidos/denegados, limites de longitud de entrada, etc. Este ejemplo usa todas para un caso regular (menos lista negra), lo cual hace que solo sea capaz de procesar exactamente los 6 valores que queremos que sean procesados. Sin embargo, estas son medidas secundarias a la parametrizacion/SPs, además de ser situacionales.
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XSS - Ejemplo Seguro</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body style="height:745px">
+    <div class="container">
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark ">
+      <a href="#" class="navbar-brand mb-0 h1">
+        <img class="d-inline ms-4 align-top" src="{{ url_for('static', filename='img/Logo.jpg')}}" width="30" height="30" style="border-radius: 50%;">
+      </a>
+      <button type="button" data-bs-toggle="collapse" data-bs-target="#barraNavegacion" class="navbar-toggler m-2" aria-controls="barraNavegacion" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="barraNavegacion">
+        <ul class="navbar-nav">
+          <li class="nav-item active m-2">
+            <a href="/home" class="nav-link active">
+              Home
+            </a>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Fugas de Información
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/fugas1" class="dropdown-item">Fuga 1</a></li>
+                <li><a href="/fugas2" class="dropdown-item">Fuga 2</a></li>
+                <li><a href="/fugas3" class="dropdown-item">Fuga 3</a></li>
+                <li><a href="/fugas4" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              SQLi
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/SQLi1" class="dropdown-item">Ejercicio</a></li>
+                <li><a href="/SQLi2" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              XSS
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/XSS1" class="dropdown-item">E. Reflected</a></li>
+                <li><a href="/XSS2" class="dropdown-item">E. Stored</a></li>
+                <li><a href="/XSS3" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              CSRF
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/CSRF1" class="dropdown-item">Ejercicio</a></li>
+                <li><a href="/CSRF2" class="dropdown-item">Ejemplo Seguro</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown m-2">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Final
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="/flag" class="dropdown-item">Flag</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+        <div class="nav navbar-nav navbar-right m-2" style="float:right;">
+           <a class="navbar-brand text-center" href="/logout">Cerrar Sesión</a>
+        </div>
+      </nav>
+    </div>
+    <div class="container overflow-hidden" style="height:670px;">
+      <div class="float-child" id="divHome">
+        <p class="text-center m-2" style="font-size: 20px ; font-weight: bold">
+          <b>Ejemplo Seguro</b>
+        </p>
+        <div>
+          <form id="fHola" action="/XSS3" class="text-center p-2" method="post" style="position: relative; top: 15%">
+            <button id="btnContexto" type="button" class="btn btn-primary text-center m-2" data-bs-toggle="modal" data-bs-target="#modalContexto">
+            Contexto
+            </button>
+            <br>
+            <label for="iNombre" class="form-label text-success"><b>Cual es tu nombre?</b></label>
+            <input type="text" class="form-control me-2 text-center" id="iNombre" name="iNombre" placeholder="Ingresa tu nombre aqui..." maxlength="25" required>
+            <br>
+            <label for="iApellido" class="form-label text-success"><b>Cual es tu apellido?</b></label>
+            <input type="text" class="form-control me-2 text-center" id="iApellido" name="iApellido" placeholder="Ingresa tu apellido aqui..." maxlength="25" required>
+            <br>
+            <button id="bHola" type="submit" class="btn btn-dark">Saludar</button>
+          </form>
+        </div>
+
+        <p id="pHola" class="text-center m-2 text-success" style="font-weight: bold;">
+          {% for saludo in get_flashed_messages(category_filter=["saludo"])%}{{saludo}}{% endfor %}</p>
+        </div>
+      </div>
+      <div class="modal fade" id="modalContexto" tabindex="-1" role="dialog" aria-labelledby="modalContextoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalContextoLabel">Detalle del Contexto</h5>
+                </div>
+                <div class="modal-body">
+                  <p class="text-center m-2">
+                    XSS es un tipo de ataque que se verifica con la respuesta a una pregunta: "Es posible ingresar elementos de codigo arbitrario o comportamiento ajeno a la pagina y que sean procesados?" En un contexto tradicional, las vulnerabilidades a XSS son peligrosas debido a que tienen pocas limitaciones una vez que la vulnerabilidad se confirma, ya que la funcionalidad manipulable queda a merced de la creatividad del atacante para explotar la vulnerabilidad dentro de los controles implementados.
+                  </p>
+                  <p class="text-center m-2">
+                    No proveemos dos ejemplos seguros para Reflected y Stored respectivamente, ya que XSS como uno, resultan en tratar de realizar las mismas acciones, lo único que cambia es el metodo de entrega, donde Reflected es por medio de ingeniería social (típicamente) y stored, que es el más peligroso de los dos, lo entrega por medio de almacenar el comportamiento directo en la página, es decir que elimina la necesidad de interacción manipulada con la victima, y en vez es una bomba de tiempo.
+                  </p>
+                  <p class="text-center m-2">
+                    La proteccion contra XSS es más caso por caso que SQLi, donde los queries parametrizados debidamente implementados son en teoría infalibles y en general una practica funcional en la mayoría, si no todos, los casos. Para XSS se debe evaluar cada caso por su cuenta, porque la vulnerabilidad se puede presentar en diferentes maneras, aun si siempre es con la intencion de insertar comportamiento ajeno a la página. En este caso particular, los controles que lo protegen son los que describimos a continuación.
+                  </p>
+                  <p class="text-center m-2">
+                    Escapar la entrada del usuario, justo antes de ser procesada, y adicionalmente cuando se agrega al template de la página. No integrar entradas del usuario a ningun elemento que pueda ignorar las condiciones típicas de escapado, en este caso, toda la información que el usuario provee va directo al HTML interno del elemento donde se muestra, no cerca de sus atributos, no adentro de otras cadenas, etc. Como el codigo arbitrario no es procesado, sino solo mostrado, está (en teoría) protegido de un ataque XSS. Adicionalmente, esta página correctamente evalua solamente el caso del POST, no envía información por la URL que no necesita mandar por la URL.
+                  </p>
+                  <p class="text-center m-2">
+                   Para proteger contra los XSS Stored, se pueden agregar medidas como purificar la base de datos, no permitir en primer lugar que entre información "sucia", limitar severamente los elementos que se ingresan, y no confiar en la información que viene de la base de datos, aún con todos esos filtros previos, revisandola nuevamente al salir por cualquier irregularidad.
+                   </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  </body>
+</html>
