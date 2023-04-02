@@ -19,6 +19,7 @@ Nosotros usamos solamente Windows mientras creabamos esta herramienta, por lo qu
 Con una versión de python superior a 3.9.16 (la herramienta no fue probado con versiones menores, así que se recomienda usar esa como minimo)
 
 Crear un ambiente para instalar los requisitos del requirements.txt (estos comandos son de Windows)
+* cd /ruta/al/clon/para/el/ambiente
 * python -m venv /ruta/al/clon/para/el/ambiente
 * /ruta/al/clon/para/el/ambiente/Scripts/activate.bat 
 * pip install -r requirements.txt
