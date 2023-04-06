@@ -9,6 +9,8 @@ Solo es necesario usar un usuario distinto a "usuario" para el ejercicio de CSRF
 * enrique - 3v3nS4f3r!pwd*_*
 * panchito - NotS4f33nuf!pwd
 
+Video de Uso - https://youtu.be/lPlKtXeWPU0 
+
 Metodo de Instalacion / Setup de Ambiente
 
 Nosotros usamos solamente Windows mientras creabamos esta herramienta, por lo que solo detallamos como hacerlo en Windows.
